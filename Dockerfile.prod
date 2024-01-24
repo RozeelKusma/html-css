@@ -1,0 +1,15 @@
+FROM nginx:alpine
+
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
+## Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
+
+##Copy the generated dist files to nginx
+COPY dist/ /usr/share/nginx/html
+
+# Expose port 80 for HTTP Traffic
+EXPOSE 80 443
+# start the nginx web server
+CMD ["nginx", "-g", "daemon off;"]
